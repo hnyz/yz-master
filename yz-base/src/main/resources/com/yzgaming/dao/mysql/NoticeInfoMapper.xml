@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzgaming.dao.mysql.NoticeInfoMapper">
+
+	<resultMap id="BaseResultMap" type="com.yzgaming.model.NoticeInfo">
+			<id property="id" column="id" jdbcType="INTEGER"/>
+			<result property="noticeName" column="notice_name" jdbcType="VARCHAR"/>
+			<result property="noticeTitle" column="notice_title" jdbcType="VARCHAR"/>
+			<result property="noticeText" column="notice_text" jdbcType="LONGVARCHAR"/>
+			<result property="noticeType" column="notice_type" jdbcType="TINYINT"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		id,notice_name,notice_title,notice_text,notice_type
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			yz_notice_info
+		where
+			id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from yz_notice_info
+		where 1=1
+		  <if test="_bean != null and _bean.id != null">
+			and id = #{ _bean.id, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.noticeName != null">
+			and notice_name = #{ _bean.noticeName, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.noticeTitle != null">
+			and notice_title = #{ _bean.noticeTitle, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.noticeText != null">
+			and notice_text = #{ _bean.noticeText, jdbcType=LONGVARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.noticeType != null">
+			and notice_type = #{ _bean.noticeType, jdbcType=TINYINT }
+		  </if>
+	</select>
+	
+	<select id="listPage" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from yz_notice_info
+		where 1=1
+			<if test="_bean != null and _bean.id != null">
+			  and id = #{ _bean.id, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.noticeName != null">
+			  and notice_name = #{ _bean.noticeName, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.noticeTitle != null">
+			  and notice_title = #{ _bean.noticeTitle, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.noticeText != null">
+			  and notice_text = #{ _bean.noticeText, jdbcType=LONGVARCHAR }
+			</if>
+			<if test="_bean != null and _bean.noticeType != null">
+			  and notice_type = #{ _bean.noticeType, jdbcType=TINYINT }
+			</if>
+		<if test="_orderby != null">
+			order by ${_orderby} ${_orderdir}
+		</if>
+		<if test="_start != null and _pageSize != null">
+			limit ${_start}, ${_pageSize}
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.yzgaming.model.NoticeInfo">
+		update yz_notice_info
+		<set>
+			<if test="noticeName != null">
+			  notice_name = #{noticeName, jdbcType=VARCHAR },
+			</if>
+			<if test="noticeTitle != null">
+			  notice_title = #{noticeTitle, jdbcType=VARCHAR },
+			</if>
+			<if test="noticeText != null">
+			  notice_text = #{noticeText, jdbcType=LONGVARCHAR },
+			</if>
+			<if test="noticeType != null">
+			  notice_type = #{noticeType, jdbcType=TINYINT },
+			</if>
+		</set>
+		where
+			id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from yz_notice_info 
+		where
+			id = #{id}
+	</delete>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.yzgaming.model.NoticeInfo">
+		insert into yz_notice_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="noticeName != null">
+				notice_name,
+			</if>
+			<if test="noticeTitle != null">
+				notice_title,
+			</if>
+			<if test="noticeText != null">
+				notice_text,
+			</if>
+			<if test="noticeType != null">
+				notice_type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id, jdbcType=INTEGER},
+			</if>
+			<if test="noticeName != null">
+				#{noticeName, jdbcType=VARCHAR},
+			</if>
+			<if test="noticeTitle != null">
+				#{noticeTitle, jdbcType=VARCHAR},
+			</if>
+			<if test="noticeText != null">
+				#{noticeText, jdbcType=LONGVARCHAR},
+			</if>
+			<if test="noticeType != null">
+				#{noticeType, jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

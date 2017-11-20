@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzgaming.dao.mysql.BannerImageMapper">
+
+	<resultMap id="BaseResultMap" type="com.yzgaming.model.BannerImage">
+			<id property="id" column="id" jdbcType="INTEGER"/>
+			<result property="imageName" column="image_name" jdbcType="VARCHAR"/>
+			<result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+			<result property="imageTitle" column="image_title" jdbcType="VARCHAR"/>
+			<result property="type" column="type" jdbcType="TINYINT"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		id,image_name,image_url,image_title,type
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			yz_banner_image
+		where
+			id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from yz_banner_image
+		where 1=1
+		  <if test="_bean != null and _bean.id != null">
+			and id = #{ _bean.id, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.imageName != null">
+			and image_name = #{ _bean.imageName, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.imageUrl != null">
+			and image_url = #{ _bean.imageUrl, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.imageTitle != null">
+			and image_title = #{ _bean.imageTitle, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.type != null">
+			and type = #{ _bean.type, jdbcType=TINYINT }
+		  </if>
+	</select>
+	
+	<select id="listPage" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from yz_banner_image
+		where 1=1
+			<if test="_bean != null and _bean.id != null">
+			  and id = #{ _bean.id, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.imageName != null">
+			  and image_name = #{ _bean.imageName, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.imageUrl != null">
+			  and image_url = #{ _bean.imageUrl, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.imageTitle != null">
+			  and image_title = #{ _bean.imageTitle, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.type != null">
+			  and type = #{ _bean.type, jdbcType=TINYINT }
+			</if>
+		<if test="_orderby != null">
+			order by ${_orderby} ${_orderdir}
+		</if>
+		<if test="_start != null and _pageSize != null">
+			limit ${_start}, ${_pageSize}
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.yzgaming.model.BannerImage">
+		update yz_banner_image
+		<set>
+			<if test="imageName != null">
+			  image_name = #{imageName, jdbcType=VARCHAR },
+			</if>
+			<if test="imageUrl != null">
+			  image_url = #{imageUrl, jdbcType=VARCHAR },
+			</if>
+			<if test="imageTitle != null">
+			  image_title = #{imageTitle, jdbcType=VARCHAR },
+			</if>
+			<if test="type != null">
+			  type = #{type, jdbcType=TINYINT },
+			</if>
+		</set>
+		where
+			id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from yz_banner_image 
+		where
+			id = #{id}
+	</delete>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.yzgaming.model.BannerImage">
+		insert into yz_banner_image
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="imageName != null">
+				image_name,
+			</if>
+			<if test="imageUrl != null">
+				image_url,
+			</if>
+			<if test="imageTitle != null">
+				image_title,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id, jdbcType=INTEGER},
+			</if>
+			<if test="imageName != null">
+				#{imageName, jdbcType=VARCHAR},
+			</if>
+			<if test="imageUrl != null">
+				#{imageUrl, jdbcType=VARCHAR},
+			</if>
+			<if test="imageTitle != null">
+				#{imageTitle, jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type, jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>
