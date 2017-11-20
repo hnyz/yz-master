@@ -2,7 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 <modelVersion>4.0.0</modelVersion>
-	<parent>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <parent>
 		<groupId>com.yzgaming</groupId>
 		<artifactId>yz-master</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
@@ -10,5 +22,24 @@
 
 	<artifactId>yz-client</artifactId>
 	<name>yz-client</name>
+	<packaging>war</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>com.yzgaming</groupId>
+			<artifactId>yz-base</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+		<!--swagger-->
+		<dependency>
+			<groupId>com.mangofactory</groupId>
+			<artifactId>swagger-springmvc</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
 
 </project>

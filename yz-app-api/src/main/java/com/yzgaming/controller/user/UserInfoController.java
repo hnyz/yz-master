@@ -8,14 +8,13 @@ package com.yzgaming.controller.user;
 
 import com.yzgaming.controller.BaseController;
 import com.yzgaming.mvc.result.JSONMessage;
-import com.yzgaming.user.dao.redis.api.RedisBaseDAO;
-import com.yzgaming.user.model.UserInfo;
+import com.yzgaming.dao.redis.api.RedisBaseDAO;
+import com.yzgaming.model.user.UserInfo;
 
 
-import com.yzgaming.user.service.UserInfoService;
+import com.yzgaming.service.user.UserInfoService;
 
 import com.yzgaming.util.common.RandomUtil;
-import com.yzgaming.util.string.StringNumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @version 1.0

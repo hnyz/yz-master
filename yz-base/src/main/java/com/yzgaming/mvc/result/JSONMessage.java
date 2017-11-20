@@ -64,6 +64,9 @@ public class JSONMessage {
 	public static JSONMessage newMessage(){
 		return new JSONMessage();
 	}
+	public static JSONMessage getNewMessage(){
+		return new JSONMessage();
+	}
 	public static JSONMessage successMessage(){
 		JSONMessage jsonMessage = new JSONMessage();
 		jsonMessage.setSuccess();

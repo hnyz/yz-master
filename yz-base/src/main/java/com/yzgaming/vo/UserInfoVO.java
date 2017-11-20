@@ -1,7 +1,7 @@
 package com.yzgaming.vo;
 
 
-import com.yzgaming.user.model.UserInfo;
+import com.yzgaming.model.user.UserInfo;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;

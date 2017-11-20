@@ -3,7 +3,7 @@ package com.yzgaming.controller;
 
 
 
-import com.yzgaming.user.dao.redis.api.RedisBaseDAO;
+import com.yzgaming.dao.redis.api.RedisBaseDAO;
 import com.yzgaming.util.spring.SpringContextHolder;
 import com.yzgaming.util.string.StringNumberUtil;
 import com.yzgaming.vo.UserInfoVO;
