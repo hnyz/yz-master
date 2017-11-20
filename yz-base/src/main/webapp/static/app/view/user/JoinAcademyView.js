@@ -1,0 +1,47 @@
+/*
+ * Copyright(c) 2016 cncounter.com All rights reserved.
+ * distributed with this file and available online at
+ * http://www.cncounter.com/
+ */
+/**
+ * view - 讲武堂入学表
+ */
+Ext.define("ESSM.view.user.JoinAcademyView",{
+	extend: "Ext.panel.Panel",
+	alias : "widget.joinAcademyView",
+    requires : [
+        'ESSM.store.user.JoinAcademyStore',
+        "ESSM.view.user.JoinAcademyGrid",
+        "ESSM.view.user.JoinAcademyForm"
+    ],
+	tbar : [
+		{
+			xtype : 'authcbutton',
+			action : 'create',
+			iconCls : 'add',
+			disabled : false,
+			text :'新增'
+		},
+		{
+			xtype : 'authcbutton',
+			action : 'update',
+			iconCls : 'edit',
+			disabled : true,
+			text :'修改'
+		}
+		,{
+			xtype : 'authcbutton',
+			action :'delete',
+			iconCls : 'delete',
+			disabled : false,
+			text : '删除'
+		}
+	],
+	items : [
+		{
+			xtype : "JoinAcademyGrid",
+			anchor: "100% -60",
+			border : false
+		}
+	]
+});
