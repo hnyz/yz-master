@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 import com.yzgaming.model.user.UserInfo;
+import com.yzgaming.util.common.YZException;
 
 /**
  * @version 1.0
@@ -29,6 +30,8 @@ public interface UserInfoService {
 
 	public List<UserInfo> listPage(Map<String, Object> params);
 
-	public UserInfo loginByPass(String mobile);
+	public UserInfo loginBymobile(String mobile,String passWord) throws YZException;
+
+	public UserInfo register(String mobile);
 
 }

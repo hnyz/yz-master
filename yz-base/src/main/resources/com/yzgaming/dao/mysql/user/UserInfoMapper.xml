@@ -202,7 +202,7 @@
 		</trim>
 	</insert>
 
-	<select id="getByPassWord" parameterType="String" resultMap="BaseResultMap">
+	<select id="getBymobile" parameterType="String" resultMap="BaseResultMap">
 		SELECT <include refid="Base_Column_List" />  FROM yz_user_info  WHERE user_mobile=#{mobile}
 	</select>
 </mapper>

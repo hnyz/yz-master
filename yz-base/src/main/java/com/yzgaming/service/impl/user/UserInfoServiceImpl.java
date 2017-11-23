@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import com.yzgaming.dao.redis.api.RedisBaseDAO;
 import com.yzgaming.util.common.MD5Util;
+import com.yzgaming.util.common.YZException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,7 +86,24 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public UserInfo loginByPass(String mobile) {
-		return  userInfoMapper.getByPassWord(mobile);
+	public UserInfo loginBymobile(String mobile,String passWord) throws YZException {
+		UserInfo userInfo=userInfoMapper.getBymobile(mobile);
+		if (userInfo == null ||  //未注册
+				!userInfo.getUserPassword().equals(passWord)){
+             throw new YZException("用户名或密码错误","4001");
+		}
+		return  userInfoMapper.getBymobile(mobile);
+	}
+
+	@Override
+	public UserInfo register(String mobile) {
+		UserInfo userInfo=new UserInfo();
+		userInfo.setJoinTime(new Date());
+		userInfo.setUserComing(3);
+		userInfo.setUserMobile(mobile);
+		userInfo.setUserName(mobile);
+		userInfoMapper.insert(userInfo);
+
+		return userInfo;
 	}
 }

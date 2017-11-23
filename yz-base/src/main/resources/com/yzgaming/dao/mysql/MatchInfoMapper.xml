@@ -217,5 +217,8 @@
 			</if>
 		</trim>
 	</insert>
-	
+
+	<select id="findAll">
+
+	</select>
 </mapper>

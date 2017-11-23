@@ -27,5 +27,5 @@ public interface UserInfoMapper {
     
     int deleteById(Integer id);
 
-    UserInfo getByPassWord(String mobile);
+    UserInfo getBymobile(String mobile);
 }

@@ -17,8 +17,7 @@ import java.lang.reflect.Method;
 
 public class LoginInterceptor extends  HandlerInterceptorAdapter {
 
-    @Autowired
-    private    RedisBaseDAO redisBaseDAO;
+
     @Autowired
     private TokenManager manager;
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
