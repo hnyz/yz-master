@@ -40,6 +40,7 @@ public class LoginInterceptor extends  HandlerInterceptorAdapter {
         }
         //如果验证token失败，并且方法注明了Authorization，返回401错误
         if (method.getAnnotation(Authorization.class) != null) {
+
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }

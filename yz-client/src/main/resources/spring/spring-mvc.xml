@@ -25,6 +25,10 @@
 				</property>
 			</bean>
 		</mvc:message-converters>
+
+		<mvc:argument-resolvers>
+			<bean class="com.yzgaming.resolvers.CurrentUserMethodArgumentResolver"/>
+		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
 
 	<!-- 定义ViewResolver组件, 实现根据视图标识获取JSP响应 -->
@@ -45,6 +49,7 @@
 		<ref bean="loginInterceptor"/>
         <ref bean="initInterceptor"/>
 	</mvc:interceptors>
+
 
 
 </beans>
