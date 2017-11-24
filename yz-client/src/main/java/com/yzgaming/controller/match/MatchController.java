@@ -15,11 +15,23 @@ public class MatchController {
     @Autowired
     private MatchInfoService matchInfoService;
 
+    @RequestMapping("/macth-list")
     public ResponseVO getMatchList(Integer pageSize,Integer pageNum){
         Map<String, Object> params=new HashMap<String,Object>();
         params.put("",pageSize);
         params.put("",pageNum);
         matchInfoService.listPage(params);
+        return null;
+    }
+
+    /**
+     * 赛事详情
+     * @param macthId
+     * @return
+     */
+    @RequestMapping("/macth-details")
+    public ResponseVO macthDetails(Integer macthId){
+        matchInfoService.getById(macthId);
         return null;
     }
 }

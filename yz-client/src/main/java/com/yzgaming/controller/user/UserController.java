@@ -1,5 +1,7 @@
 package com.yzgaming.controller.user;
 
+import com.yzgaming.annotation.Authorization;
+import com.yzgaming.annotation.CurrentUser;
 import com.yzgaming.dao.mysql.user.UserInfoMapper;
 import com.yzgaming.model.user.UserInfo;
 import com.yzgaming.mvc.result.JSONMessage;
@@ -19,8 +21,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController{
     @Autowired
@@ -33,7 +36,6 @@ public class UserController{
     @Autowired
     private TokenManager tokenManager;
     @RequestMapping(value = "/login",method = RequestMethod.GET)
-    @ResponseBody
     public ResponseVO login(String mobile, String passWord) {
         //密码MD5
         Assert.notNull(mobile, "mobile can not be empty");
@@ -53,55 +55,51 @@ public class UserController{
 
     /**
      * 获取短信验证码
-     * @param imgCode
      * @param mobile
      * @return
      */
     @RequestMapping("/sendSms")
-    @ResponseBody
-    public JSONMessage getSmsCode(String imgCode,String mobile){
-        if(imgCode.equals("")){
+    public ResponseVO getSmsCode(String mobile){
             //随机生成验证码
-            String smsCode=  RandomUtil.getRandNum();
+            String smsCode="123456";
+            //String smsCode=  RandomUtil.getRandNum();
             //保存到Redis中
             redisBaseDAO.saveObject(mobile,smsCode,6000);
             //发送短信
+            //
+            return new ResponseVO(200,"验证码已发送到你的手机！","");
 
-        }else{
-            return  JSONMessage.failureMessage();
-        }
-
-        return   JSONMessage.successMessage();
     }
 
     /***
      * 用户手机号注册
      * @return
      */
+    @RequestMapping("/register")
     public ResponseVO register(String mobile,String  smsCode){
         //手机验证码是否正确
         String code=redisBaseDAO.getString(mobile);
-        if(code==null){
+        if(code.equals("null")){
             return new ResponseVO(4002,"手机验证码已失效","");
+        }else {
+           if(!smsCode.equals(code)){
+           return new ResponseVO(4001,"手机验证码不正确","");
         }
-        if(!smsCode.equals(code)){
-            return new ResponseVO(4001,"手机验证码不正确","");
         }
         //手机号是否存在
-//        UserInfo user= userInfoService.getBymobile(mobile);
-//        if(user==null){
-//            //先注册
-//           UserInfo newUser= userInfoService.register(mobile);
-//           //再登录
-//            userInfoService.loginBymobile(mobile,"");
-//
-//
-//
-//
-//        }
-        return null;
-
-
+        UserInfo user= userInfoMapper.getBymobile(mobile);
+        if(user==null){
+           //先注册
+           UserInfo newUser= userInfoService.register(mobile);
+           //生成一个token，保存用户登录状态
+           TokenModel model = tokenManager.createToken(newUser.getId());
+           return new ResponseVO(200,"登录成功！",model);
+       }else{
+            //直接登陆
+            //生成一个token，保存用户登录状态
+            TokenModel model = tokenManager.createToken(user.getId());
+            return new ResponseVO(200,"登录成功！",model);
+        }
     }
 
     /***
@@ -112,11 +110,21 @@ public class UserController{
      * @return
      */
     @RequestMapping("/setUserName")
-    @ResponseBody
     public ResponseVO setPassWordAndName(String userName,String passWord,String  passWordAgain){
         if (passWord.equals(passWordAgain)){
 
         }
+        return null;
+    }
+
+    /**
+     * 获取图片验证码
+     * @return
+     */
+    @RequestMapping("/testuser")
+    @Authorization
+    public ResponseVO getImgCode(@CurrentUser UserInfo userInfo){
+        System.out.println(userInfo.getId());
         return null;
     }
 }

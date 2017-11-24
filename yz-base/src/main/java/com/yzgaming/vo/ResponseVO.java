@@ -13,6 +13,23 @@ public class ResponseVO implements Serializable{
         this.message = message;
         this.data = data;
     }
+    public ResponseVO(){
+
+    }
+
+    /**
+     * 成功返回
+     * @param object
+     * @return
+     */
+    public static ResponseVO  getSuccess(Object object){
+        ResponseVO responseVO=new ResponseVO();
+        responseVO.setCode(200);
+        responseVO.setMessage("调用成功");
+        responseVO.setData(object);
+        return  responseVO;
+
+    }
 
     public int getCode() {
         return code;

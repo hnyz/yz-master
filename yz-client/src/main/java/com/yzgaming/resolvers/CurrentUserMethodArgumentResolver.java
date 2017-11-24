@@ -3,6 +3,7 @@ package com.yzgaming.resolvers;
 
 import com.yzgaming.annotation.CurrentUser;
 import com.yzgaming.config.Constants;
+import com.yzgaming.dao.mysql.user.UserInfoMapper;
 import com.yzgaming.model.user.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -23,8 +24,8 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 @Component
 public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
-    //@Autowired
-   // private UserRepository userRepository;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
 
     public boolean supportsParameter(MethodParameter parameter) {
@@ -42,7 +43,7 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
         Long currentUserId = (Long) webRequest.getAttribute(Constants.CURRENT_USER_ID, RequestAttributes.SCOPE_REQUEST);
         if (currentUserId != null) {
             //从数据库中查询并返回
-           // return userRepository.findOne(currentUserId);
+            return userInfoMapper.getById(Integer.parseInt(currentUserId.toString()));
         }
         throw new MissingServletRequestPartException(Constants.CURRENT_USER_ID);
     }
