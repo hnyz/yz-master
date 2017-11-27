@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 通过Redis存储和验证token的实现类
- * @see com.scienjus.authorization.manager.TokenManager
+ * @see
  * @author ScienJus
  * @date 2015/7/31.
  */

@@ -1,10 +1,12 @@
 package com.yzgaming.interceptor;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.yzgaming.annotation.Authorization;
 import com.yzgaming.config.Constants;
 import com.yzgaming.dao.redis.api.RedisBaseDAO;
 import com.yzgaming.util.manager.TokenManager;
+import com.yzgaming.vo.ResponseVO;
 import com.yzgaming.vo.TokenModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 @Component
@@ -42,6 +45,19 @@ public class LoginInterceptor extends  HandlerInterceptorAdapter {
         if (method.getAnnotation(Authorization.class) != null) {
 
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            ResponseVO responseVO=new ResponseVO();
+            responseVO.setMessage("TOKEN验证失败！");
+            responseVO.setCode(401);
+            responseVO.setData("");
+//
+            JSONObject jsonObject=(JSONObject) JSONObject.toJSON(responseVO);
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json; charset=utf-8");
+            PrintWriter writer = response.getWriter();
+            writer.append(jsonObject.toString());
+            writer.flush();
+            writer.close();
+
             return false;
         }
         return true;

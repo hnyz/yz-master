@@ -13,7 +13,7 @@
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器  -->
 	<context:component-scan base-package="com.yzgaming.controller" />
 
-	<mvc:annotation-driven>
+	<mvc:annotation-driven >
 		<mvc:message-converters>
 			<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
 				<description>JSON转换器</description>
@@ -49,6 +49,8 @@
 		<ref bean="loginInterceptor"/>
         <ref bean="initInterceptor"/>
 	</mvc:interceptors>
+
+
 
 
 
