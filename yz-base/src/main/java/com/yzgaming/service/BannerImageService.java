@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 
-import com.yzgaming.model.BannerImage;
+import com.yzgaming.model.banner.BannerImage;
 
 /**
  * @version 1.0
@@ -28,5 +28,7 @@ public interface BannerImageService {
 	public Integer countBy(Map<String, Object> params);
 
 	public List<BannerImage> listPage(Map<String, Object> params);
+
+	public List<BannerImage> listByType(Integer type);
 
 }

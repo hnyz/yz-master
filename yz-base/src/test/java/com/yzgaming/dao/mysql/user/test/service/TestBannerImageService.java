@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 
-import com.yzgaming.model.BannerImage;
+import com.yzgaming.model.banner.BannerImage;
 import com.yzgaming.service.BannerImageService;
 
 /**

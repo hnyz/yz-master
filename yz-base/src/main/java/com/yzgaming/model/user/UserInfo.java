@@ -16,12 +16,14 @@ import java.util.Date;
 public class UserInfo implements Serializable {
 
 	// id
+
 	private Long id;
 	// 用户名
 	private String userName;
 	// 登录密码
 	private String userPassword;
 	// 手机号
+	//@Pattern(regexp="^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$", message="手机号格式不正确")
 	private String userMobile;
 	// 来自哪里(1,PC客户端，2APP,3微信端)
 	private Integer userComing;

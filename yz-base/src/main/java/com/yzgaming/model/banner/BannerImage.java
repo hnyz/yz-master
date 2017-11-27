@@ -3,7 +3,7 @@
  * distributed with this file and available online at
  * http://www.cncounter.com/
  */
-package com.yzgaming.model;
+package com.yzgaming.model.banner;
 
 import java.io.Serializable;
 import java.util.Date;

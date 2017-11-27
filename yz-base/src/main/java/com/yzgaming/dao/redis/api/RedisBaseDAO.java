@@ -1,5 +1,7 @@
 package com.yzgaming.dao.redis.api;
 
+import com.yzgaming.vo.TokenModel;
+
 import java.io.Serializable;
 import java.util.Set;
 
@@ -117,4 +119,6 @@ public interface RedisBaseDAO {
 	 * @return
 	 */
 	public int getExpireSeconds(String key);
+
+
 }

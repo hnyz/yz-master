@@ -3,14 +3,14 @@
  * distributed with this file and available online at
  * http://www.cncounter.com/
  */
-package com.yzgaming.dao.mysql;
+package com.yzgaming.dao.mysql.banner;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import com.yzgaming.model.BannerImage;
+import com.yzgaming.model.banner.BannerImage;
 
 @Repository
 public interface BannerImageMapper {
@@ -26,4 +26,6 @@ public interface BannerImageMapper {
     int update(BannerImage bannerImage);
     
     int deleteById(Integer id);
+
+    List<BannerImage> listByType(Integer type);
 }

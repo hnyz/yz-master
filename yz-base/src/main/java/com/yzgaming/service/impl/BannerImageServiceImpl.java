@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.yzgaming.service.BannerImageService;
-import com.yzgaming.model.BannerImage;
-import com.yzgaming.dao.mysql.BannerImageMapper;
+import com.yzgaming.model.banner.BannerImage;
+import com.yzgaming.dao.mysql.banner.BannerImageMapper;
 
 /**
  * <一句话功能简述>
@@ -74,5 +74,10 @@ public class BannerImageServiceImpl implements BannerImageService {
 		List<BannerImage> lists = bannerImageMapper.listPage(params);
 		
 		return lists;
+	}
+
+	@Override
+	public List<BannerImage> listByType(Integer type) {
+		return bannerImageMapper.listByType(type);
 	}
 }

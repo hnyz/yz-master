@@ -248,5 +248,7 @@ public class RedisBaseImpl implements RedisBaseDAO {
 		//
 		return result.intValue();
 	}
+
+
 }
 

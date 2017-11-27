@@ -21,8 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 
-import com.yzgaming.model.BannerImage;
-import com.yzgaming.dao.mysql.BannerImageMapper;
+import com.yzgaming.model.banner.BannerImage;
+import com.yzgaming.dao.mysql.banner.BannerImageMapper;
 
 /**
  * @version 1.0
