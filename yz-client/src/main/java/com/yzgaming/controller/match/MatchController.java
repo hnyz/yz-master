@@ -5,6 +5,7 @@ import com.yzgaming.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -16,23 +17,22 @@ public class MatchController {
     @Autowired
     private MatchInfoService matchInfoService;
 
-    @GetMapping("/macth-list")
+    @GetMapping("/match-list")
     public ResponseVO getMatchList(Integer pageSize,Integer pageNum){
         Map<String, Object> params=new HashMap<String,Object>();
-        params.put("",pageSize);
-        params.put("",pageNum);
-        matchInfoService.listPage(params);
-        return null;
+        params.put("_start",pageNum);
+        params.put("_pageSize",pageSize);
+        return ResponseVO.getSuccess(matchInfoService.listPage(params));
     }
 
     /**
      * 赛事详情
-     * @param macthId
+     * @param matchId
      * @return
      */
-    @RequestMapping("/macth-details")
-    public ResponseVO macthDetails(Integer macthId){
-        matchInfoService.getById(macthId);
-        return null;
+    @RequestMapping(value = "/match-details" ,method = RequestMethod.GET)
+    public ResponseVO macthDetails(Integer matchId){
+        System.out.println(matchId);
+        return ResponseVO.getSuccess(matchInfoService.getById(matchId));
     }
 }

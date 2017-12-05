@@ -58,7 +58,7 @@ public class UserController{
             TokenModel model = tokenManager.createToken(user.getId());
             return new ResponseVO(200,"登录成功！",model);
         } catch (YZException e) {
-            return new ResponseVO(Integer.parseInt(e.getErrorCode()),e.getMessage(),"");
+            return new ResponseVO(e.getErrorCode(),e.getMessage(),"");
         }
 
     }
@@ -151,7 +151,7 @@ public class UserController{
     public ResponseVO bundlingLolgame(@CurrentUser UserInfo userInfo, @RequestBody LolGameInfo gameInfo){
         gameInfo.setUserId(Integer.parseInt(userInfo.getId().toString()));
         lolGameInfoMapper.insert(gameInfo);
-        return new ResponseVO(200,"绑定成功","");
+        return new ResponseVO(200,"绑定成功",gameInfo);
     }
 
     /**
@@ -169,6 +169,24 @@ public class UserController{
         }else{
             return new ResponseVO(200,"该用户已绑定LOL账户",gameInfo);
         }
+    }
+
+    /**
+     * 是否绑定了吃鸡账户
+     */
+    @GetMapping("/exist-chicken")
+    @Authorization
+    public ResponseVO existChicken(@CurrentUser UserInfo userInfo){
+        //根据用户ID获取
+        return null;
+    }
+
+    /**
+     * 绑定吃鸡账户
+     */
+    @GetMapping("/bund-chicken")
+    public ResponseVO bundlingChickenGame(){
+        return null;
     }
 }
 

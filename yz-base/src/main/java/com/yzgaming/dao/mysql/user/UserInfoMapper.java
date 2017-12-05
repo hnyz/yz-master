@@ -8,6 +8,7 @@ package com.yzgaming.dao.mysql.user;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.yzgaming.model.user.UserInfo;
@@ -28,4 +29,8 @@ public interface UserInfoMapper {
     int deleteById(Integer id);
 
     UserInfo getBymobile(String mobile);
+
+    void updateIntegral(Integer userId,Integer integral);
+
+    void updateVolume(@Param("userId") Integer userId, @Param("volume") Integer volume);
 }

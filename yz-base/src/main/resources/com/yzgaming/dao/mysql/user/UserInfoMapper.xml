@@ -12,11 +12,13 @@
 			<result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
 			<result property="lastLoginIp" column="last_login_ip" jdbcType="VARCHAR"/>
 			<result property="lastLoginType" column="last_login_type" jdbcType="TINYINT"/>
+		    <result property="userIntegral" column="user_integral" jdbcType="BIGINT"/>
+		   <result property="userVolume" column="user_volume" jdbcType="BIGINT"/>
 	</resultMap>
 	
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="Base_Column_List">
-		id,user_name,user_password,user_mobile,user_coming,join_time,last_login_time,last_login_ip,last_login_type
+		id,user_name,user_password,user_mobile,user_coming,join_time,last_login_time,last_login_ip,last_login_type,user_integral,user_volume
 	</sql>
 	
 	<select id="getById" parameterType="int" resultMap="BaseResultMap">
@@ -205,4 +207,12 @@
 	<select id="getBymobile" parameterType="String" resultMap="BaseResultMap">
 		SELECT <include refid="Base_Column_List" />  FROM yz_user_info  WHERE user_mobile=#{mobile}
 	</select>
+
+	<update id="updateIntegral" parameterType="int">
+		UPDATE yz_user_info SET user_integral=user_integral+#{integral} WHERE id=#{userId}
+	</update>
+
+	<update id="updateVolume" parameterType="int">
+		UPDATE yz_user_info SET user_volume=user_volume+#{volume} WHERE id=#{userId}
+	</update>
 </mapper>

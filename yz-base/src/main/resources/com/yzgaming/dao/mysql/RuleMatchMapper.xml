@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzgaming.dao.mysql.RuleMatchMapper">
+
+	<resultMap id="BaseResultMap" type="com.yzgaming.model.RuleMatch">
+			<id property="id" column="id" jdbcType="INTEGER"/>
+			<result property="ruleId" column="rule_id" jdbcType="INTEGER"/>
+			<result property="macthId" column="macth_id" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		id,rule_id,macth_id
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			yz_rule_match
+		where
+			id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from yz_rule_match
+		where 1=1
+		  <if test="_bean != null and _bean.id != null">
+			and id = #{ _bean.id, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.ruleId != null">
+			and rule_id = #{ _bean.ruleId, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.macthId != null">
+			and macth_id = #{ _bean.macthId, jdbcType=INTEGER }
+		  </if>
+	</select>
+	
+	<select id="listPage" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from yz_rule_match
+		where 1=1
+			<if test="_bean != null and _bean.id != null">
+			  and id = #{ _bean.id, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.ruleId != null">
+			  and rule_id = #{ _bean.ruleId, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.macthId != null">
+			  and macth_id = #{ _bean.macthId, jdbcType=INTEGER }
+			</if>
+		<if test="_orderby != null">
+			order by ${_orderby} ${_orderdir}
+		</if>
+		<if test="_start != null and _pageSize != null">
+			limit ${_start}, ${_pageSize}
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.yzgaming.model.RuleMatch">
+		update yz_rule_match
+		<set>
+			<if test="ruleId != null">
+			  rule_id = #{ruleId, jdbcType=INTEGER },
+			</if>
+			<if test="macthId != null">
+			  macth_id = #{macthId, jdbcType=INTEGER },
+			</if>
+		</set>
+		where
+			id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from yz_rule_match 
+		where
+			id = #{id}
+	</delete>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.yzgaming.model.RuleMatch">
+		insert into yz_rule_match
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="ruleId != null">
+				rule_id,
+			</if>
+			<if test="macthId != null">
+				macth_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id, jdbcType=INTEGER},
+			</if>
+			<if test="ruleId != null">
+				#{ruleId, jdbcType=INTEGER},
+			</if>
+			<if test="macthId != null">
+				#{macthId, jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

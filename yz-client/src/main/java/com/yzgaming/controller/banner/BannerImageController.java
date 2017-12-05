@@ -17,10 +17,15 @@ public class BannerImageController {
     BannerImageService bannerImageService;
     @Autowired
     BannerImageMapper bannerImageMapper;
+
+    /**
+     * 客户端首页轮播图
+     * @return
+     */
     @GetMapping("/banner-list")
     public ResponseVO  bannerList(){
-
         return ResponseVO.getSuccess(bannerImageService.listByType(NumberConstant.ONE));
     }
+
 
 }

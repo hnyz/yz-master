@@ -30,6 +30,19 @@ public class ResponseVO implements Serializable{
         return  responseVO;
 
     }
+    /**
+     * 失败返回
+     * @param object
+     * @return
+     */
+    public static ResponseVO  getFail(Integer code ,String message,Object object){
+        ResponseVO responseVO=new ResponseVO();
+        responseVO.setCode(code);
+        responseVO.setMessage(message);
+        responseVO.setData(object);
+        return  responseVO;
+
+    }
 
     public int getCode() {
         return code;

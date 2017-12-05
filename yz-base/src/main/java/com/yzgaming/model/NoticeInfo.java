@@ -25,6 +25,8 @@ public class NoticeInfo implements Serializable {
 	private String noticeText;
 	// 公告类型 (0,通用，1PC客户端，2，APP,3，微信)
 	private Integer noticeType;
+	//公告url
+	private String  noticeUrl;
 		
 	public void setId(Integer value) {
 		this.id = value;
@@ -65,5 +67,12 @@ public class NoticeInfo implements Serializable {
 	public Integer getNoticeType() {
 		return this.noticeType;
 	}
-	
+
+	public String getNoticeUrl() {
+		return noticeUrl;
+	}
+
+	public void setNoticeUrl(String noticeUrl) {
+		this.noticeUrl = noticeUrl;
+	}
 }

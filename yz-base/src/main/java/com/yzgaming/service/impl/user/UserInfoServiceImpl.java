@@ -90,7 +90,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		UserInfo userInfo=userInfoMapper.getBymobile(mobile);
 		if (userInfo == null ||  //未注册
 				!userInfo.getUserPassword().equals(passWord)){
-             throw new YZException("用户名或密码错误","4001");
+             throw new YZException(4001,"用户名或密码错误");
 		}
 		return  userInfo;
 	}

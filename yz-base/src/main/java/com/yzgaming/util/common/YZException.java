@@ -1,10 +1,10 @@
 package com.yzgaming.util.common;
 
-public class YZException extends  Exception {
+public class YZException extends  RuntimeException {
     private String errorMsg;
-    private String errorCode;
+    private Integer errorCode;
 
-    public YZException(String errorMsg,String errorCode){
+    public YZException(Integer errorCode,String errorMsg){
         super(errorMsg);
         this.errorCode=errorCode;
         this.errorMsg=errorMsg;
@@ -19,11 +19,11 @@ public class YZException extends  Exception {
         this.errorMsg = errorMsg;
     }
 
-    public String getErrorCode() {
+    public Integer getErrorCode() {
         return errorCode;
     }
 
-    public void setErrorCode(String errorCode) {
+    public void setErrorCode(Integer errorCode) {
         this.errorCode = errorCode;
     }
 }

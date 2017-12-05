@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzgaming.dao.mysql.LolGameMapper">
+
+	<resultMap id="BaseResultMap" type="com.yzgaming.model.LolGame">
+			<id property="id" column="id" jdbcType="INTEGER"/>
+			<result property="userId" column="user_id" jdbcType="INTEGER"/>
+			<result property="gameUin" column="game_uin" jdbcType="VARCHAR"/>
+			<result property="gameLevel" column="game_level" jdbcType="INTEGER"/>
+			<result property="gameName" column="game_name" jdbcType="VARCHAR"/>
+			<result property="gameArea" column="game_area" jdbcType="INTEGER"/>
+			<result property="gameAreaName" column="game_area_name" jdbcType="VARCHAR"/>
+			<result property="lastSeasonRank" column="last_season_rank" jdbcType="VARCHAR"/>
+			<result property="rankedTierInfo" column="ranked_tier_info" jdbcType="VARCHAR"/>
+			<result property="profileIconId" column="profile_icon_id" jdbcType="INTEGER"/>
+			<result property="userAuthToken" column="user_auth_token" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		id,user_id,game_uin,game_level,game_name,game_area,game_area_name,last_season_rank,ranked_tier_info,profile_icon_id,user_auth_token
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			yz_lol_game
+		where
+			id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from yz_lol_game
+		where 1=1
+		  <if test="_bean != null and _bean.id != null">
+			and id = #{ _bean.id, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.userId != null">
+			and user_id = #{ _bean.userId, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.gameUin != null">
+			and game_uin = #{ _bean.gameUin, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.gameLevel != null">
+			and game_level = #{ _bean.gameLevel, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.gameName != null">
+			and game_name = #{ _bean.gameName, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.gameArea != null">
+			and game_area = #{ _bean.gameArea, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.gameAreaName != null">
+			and game_area_name = #{ _bean.gameAreaName, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.lastSeasonRank != null">
+			and last_season_rank = #{ _bean.lastSeasonRank, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.rankedTierInfo != null">
+			and ranked_tier_info = #{ _bean.rankedTierInfo, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.profileIconId != null">
+			and profile_icon_id = #{ _bean.profileIconId, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.userAuthToken != null">
+			and user_auth_token = #{ _bean.userAuthToken, jdbcType=VARCHAR }
+		  </if>
+	</select>
+	
+	<select id="listPage" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from yz_lol_game
+		where 1=1
+			<if test="_bean != null and _bean.id != null">
+			  and id = #{ _bean.id, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.userId != null">
+			  and user_id = #{ _bean.userId, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.gameUin != null">
+			  and game_uin = #{ _bean.gameUin, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.gameLevel != null">
+			  and game_level = #{ _bean.gameLevel, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.gameName != null">
+			  and game_name = #{ _bean.gameName, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.gameArea != null">
+			  and game_area = #{ _bean.gameArea, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.gameAreaName != null">
+			  and game_area_name = #{ _bean.gameAreaName, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.lastSeasonRank != null">
+			  and last_season_rank = #{ _bean.lastSeasonRank, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.rankedTierInfo != null">
+			  and ranked_tier_info = #{ _bean.rankedTierInfo, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.profileIconId != null">
+			  and profile_icon_id = #{ _bean.profileIconId, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.userAuthToken != null">
+			  and user_auth_token = #{ _bean.userAuthToken, jdbcType=VARCHAR }
+			</if>
+		<if test="_orderby != null">
+			order by ${_orderby} ${_orderdir}
+		</if>
+		<if test="_start != null and _pageSize != null">
+			limit ${_start}, ${_pageSize}
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.yzgaming.model.LolGame">
+		update yz_lol_game
+		<set>
+			<if test="userId != null">
+			  user_id = #{userId, jdbcType=INTEGER },
+			</if>
+			<if test="gameUin != null">
+			  game_uin = #{gameUin, jdbcType=VARCHAR },
+			</if>
+			<if test="gameLevel != null">
+			  game_level = #{gameLevel, jdbcType=INTEGER },
+			</if>
+			<if test="gameName != null">
+			  game_name = #{gameName, jdbcType=VARCHAR },
+			</if>
+			<if test="gameArea != null">
+			  game_area = #{gameArea, jdbcType=INTEGER },
+			</if>
+			<if test="gameAreaName != null">
+			  game_area_name = #{gameAreaName, jdbcType=VARCHAR },
+			</if>
+			<if test="lastSeasonRank != null">
+			  last_season_rank = #{lastSeasonRank, jdbcType=VARCHAR },
+			</if>
+			<if test="rankedTierInfo != null">
+			  ranked_tier_info = #{rankedTierInfo, jdbcType=VARCHAR },
+			</if>
+			<if test="profileIconId != null">
+			  profile_icon_id = #{profileIconId, jdbcType=INTEGER },
+			</if>
+			<if test="userAuthToken != null">
+			  user_auth_token = #{userAuthToken, jdbcType=VARCHAR },
+			</if>
+		</set>
+		where
+			id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from yz_lol_game 
+		where
+			id = #{id}
+	</delete>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.yzgaming.model.LolGame">
+		insert into yz_lol_game
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="gameUin != null">
+				game_uin,
+			</if>
+			<if test="gameLevel != null">
+				game_level,
+			</if>
+			<if test="gameName != null">
+				game_name,
+			</if>
+			<if test="gameArea != null">
+				game_area,
+			</if>
+			<if test="gameAreaName != null">
+				game_area_name,
+			</if>
+			<if test="lastSeasonRank != null">
+				last_season_rank,
+			</if>
+			<if test="rankedTierInfo != null">
+				ranked_tier_info,
+			</if>
+			<if test="profileIconId != null">
+				profile_icon_id,
+			</if>
+			<if test="userAuthToken != null">
+				user_auth_token,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id, jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId, jdbcType=INTEGER},
+			</if>
+			<if test="gameUin != null">
+				#{gameUin, jdbcType=VARCHAR},
+			</if>
+			<if test="gameLevel != null">
+				#{gameLevel, jdbcType=INTEGER},
+			</if>
+			<if test="gameName != null">
+				#{gameName, jdbcType=VARCHAR},
+			</if>
+			<if test="gameArea != null">
+				#{gameArea, jdbcType=INTEGER},
+			</if>
+			<if test="gameAreaName != null">
+				#{gameAreaName, jdbcType=VARCHAR},
+			</if>
+			<if test="lastSeasonRank != null">
+				#{lastSeasonRank, jdbcType=VARCHAR},
+			</if>
+			<if test="rankedTierInfo != null">
+				#{rankedTierInfo, jdbcType=VARCHAR},
+			</if>
+			<if test="profileIconId != null">
+				#{profileIconId, jdbcType=INTEGER},
+			</if>
+			<if test="userAuthToken != null">
+				#{userAuthToken, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

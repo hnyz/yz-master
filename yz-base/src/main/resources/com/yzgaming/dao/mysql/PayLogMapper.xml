@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzgaming.dao.mysql.PayLogMapper">
+
+	<resultMap id="BaseResultMap" type="com.yzgaming.model.PayLog">
+			<result property="id" column="id" jdbcType="INTEGER"/>
+			<result property="orderNo" column="order_no" jdbcType="VARCHAR"/>
+			<result property="payType" column="pay_type" jdbcType="INTEGER"/>
+			<result property="payTime" column="pay_time" jdbcType="TIMESTAMP"/>
+			<result property="payRemak" column="pay_remak" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		id,order_no,pay_type,pay_time,pay_remak
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			yz_pay_log
+		where
+			id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from yz_pay_log
+		where 1=1
+		  <if test="_bean != null and _bean.id != null">
+			and id = #{ _bean.id, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.orderNo != null">
+			and order_no = #{ _bean.orderNo, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.payType != null">
+			and pay_type = #{ _bean.payType, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.payTime != null">
+			and pay_time = #{ _bean.payTime, jdbcType=TIMESTAMP }
+		  </if>
+		  <if test="_bean != null and _bean.payRemak != null">
+			and pay_remak = #{ _bean.payRemak, jdbcType=VARCHAR }
+		  </if>
+	</select>
+	
+	<select id="listPage" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from yz_pay_log
+		where 1=1
+			<if test="_bean != null and _bean.id != null">
+			  and id = #{ _bean.id, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.orderNo != null">
+			  and order_no = #{ _bean.orderNo, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.payType != null">
+			  and pay_type = #{ _bean.payType, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.payTime != null">
+			  and pay_time = #{ _bean.payTime, jdbcType=TIMESTAMP }
+			</if>
+			<if test="_bean != null and _bean.payRemak != null">
+			  and pay_remak = #{ _bean.payRemak, jdbcType=VARCHAR }
+			</if>
+		<if test="_orderby != null">
+			order by ${_orderby} ${_orderdir}
+		</if>
+		<if test="_start != null and _pageSize != null">
+			limit ${_start}, ${_pageSize}
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.yzgaming.model.PayLog">
+		update yz_pay_log
+		<set>
+			<if test="id != null">
+			  id = #{id, jdbcType=INTEGER },
+			</if>
+			<if test="orderNo != null">
+			  order_no = #{orderNo, jdbcType=VARCHAR },
+			</if>
+			<if test="payType != null">
+			  pay_type = #{payType, jdbcType=INTEGER },
+			</if>
+			<if test="payTime != null">
+			  pay_time = #{payTime, jdbcType=TIMESTAMP },
+			</if>
+			<if test="payRemak != null">
+			  pay_remak = #{payRemak, jdbcType=VARCHAR },
+			</if>
+		</set>
+		where
+			id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from yz_pay_log 
+		where
+			id = #{id}
+	</delete>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.yzgaming.model.PayLog">
+		insert into yz_pay_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="orderNo != null">
+				order_no,
+			</if>
+			<if test="payType != null">
+				pay_type,
+			</if>
+			<if test="payTime != null">
+				pay_time,
+			</if>
+			<if test="payRemak != null">
+				pay_remak,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id, jdbcType=INTEGER},
+			</if>
+			<if test="orderNo != null">
+				#{orderNo, jdbcType=VARCHAR},
+			</if>
+			<if test="payType != null">
+				#{payType, jdbcType=INTEGER},
+			</if>
+			<if test="payTime != null">
+				#{payTime, jdbcType=TIMESTAMP},
+			</if>
+			<if test="payRemak != null">
+				#{payRemak, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

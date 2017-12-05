@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzgaming.dao.mysql.RuleInfoMapper">
+
+	<resultMap id="BaseResultMap" type="com.yzgaming.model.RuleInfo">
+			<id property="id" column="id" jdbcType="INTEGER"/>
+			<result property="ruleName" column="rule_name" jdbcType="VARCHAR"/>
+			<result property="ruleValue" column="rule_value" jdbcType="VARCHAR"/>
+			<result property="ruleType" column="rule_type" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		id,rule_name,rule_value,rule_type
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			yz_rule_info
+		where
+			id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from yz_rule_info
+		where 1=1
+		  <if test="_bean != null and _bean.id != null">
+			and id = #{ _bean.id, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.ruleName != null">
+			and rule_name = #{ _bean.ruleName, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.ruleValue != null">
+			and rule_value = #{ _bean.ruleValue, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.ruleType != null">
+			and rule_type = #{ _bean.ruleType, jdbcType=INTEGER }
+		  </if>
+	</select>
+	
+	<select id="listPage" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from yz_rule_info
+		where 1=1
+			<if test="_bean != null and _bean.id != null">
+			  and id = #{ _bean.id, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.ruleName != null">
+			  and rule_name = #{ _bean.ruleName, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.ruleValue != null">
+			  and rule_value = #{ _bean.ruleValue, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.ruleType != null">
+			  and rule_type = #{ _bean.ruleType, jdbcType=INTEGER }
+			</if>
+		<if test="_orderby != null">
+			order by ${_orderby} ${_orderdir}
+		</if>
+		<if test="_start != null and _pageSize != null">
+			limit ${_start}, ${_pageSize}
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.yzgaming.model.RuleInfo">
+		update yz_rule_info
+		<set>
+			<if test="ruleName != null">
+			  rule_name = #{ruleName, jdbcType=VARCHAR },
+			</if>
+			<if test="ruleValue != null">
+			  rule_value = #{ruleValue, jdbcType=VARCHAR },
+			</if>
+			<if test="ruleType != null">
+			  rule_type = #{ruleType, jdbcType=INTEGER },
+			</if>
+		</set>
+		where
+			id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from yz_rule_info 
+		where
+			id = #{id}
+	</delete>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.yzgaming.model.RuleInfo">
+		insert into yz_rule_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="ruleName != null">
+				rule_name,
+			</if>
+			<if test="ruleValue != null">
+				rule_value,
+			</if>
+			<if test="ruleType != null">
+				rule_type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id, jdbcType=INTEGER},
+			</if>
+			<if test="ruleName != null">
+				#{ruleName, jdbcType=VARCHAR},
+			</if>
+			<if test="ruleValue != null">
+				#{ruleValue, jdbcType=VARCHAR},
+			</if>
+			<if test="ruleType != null">
+				#{ruleType, jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

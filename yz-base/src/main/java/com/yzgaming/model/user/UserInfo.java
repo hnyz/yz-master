@@ -35,6 +35,11 @@ public class UserInfo implements Serializable {
 	private String lastLoginIp;
 	// 最后登录类型(1，PC客户端，2安卓APP,3IosAPP,4,微信端)
 	private Integer lastLoginType;
+
+	//用户积分
+	private Integer userIntegral;
+	//用户点卷
+	private Integer userVolume;
 		
 	public void setId(Long value) {
 		this.id = value;
@@ -107,5 +112,20 @@ public class UserInfo implements Serializable {
 	public Integer getLastLoginType() {
 		return this.lastLoginType;
 	}
-	
+
+	public Integer getUserIntegral() {
+		return userIntegral;
+	}
+
+	public void setUserIntegral(Integer userIntegral) {
+		this.userIntegral = userIntegral;
+	}
+
+	public Integer getUserVolume() {
+		return userVolume;
+	}
+
+	public void setUserVolume(Integer userVolume) {
+		this.userVolume = userVolume;
+	}
 }
