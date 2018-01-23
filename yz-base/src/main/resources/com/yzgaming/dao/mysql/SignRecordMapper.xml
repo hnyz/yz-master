@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzgaming.dao.mysql.SignRecordMapper">
+	<select id="countBy" resultType="int">
+		select count(*)
+		from yz_sign_record
+		where 1=1
+		  <if test="_bean != null and _bean.id != null">
+			and id = #{ _bean.id, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.signId != null">
+			and sign_id = #{ _bean.signId, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.recordId != null">
+			and record_id = #{ _bean.recordId, jdbcType=INTEGER }
+		  </if>
+	</select>
+
+	<insert id="batchSave" useGeneratedKeys="true" keyProperty="id"
+			parameterType="java.util.List">
+		INSERT  into  yz_sign_record (sign_id,record_id)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(#{item.sign_id},#{item.record_id})
+		</foreach>
+	</insert>
+</mapper>

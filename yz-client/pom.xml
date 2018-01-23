@@ -34,12 +34,15 @@
 			<artifactId>servlet-api</artifactId>
 			<version>RELEASE</version>
 		</dependency>
-		<!--swagger-->
+
+
+		<!-- swagger-mvc -->
 		<dependency>
-			<groupId>com.mangofactory</groupId>
-			<artifactId>swagger-springmvc</artifactId>
-			<version>1.0.0</version>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
 		</dependency>
+
 
     </dependencies>
 

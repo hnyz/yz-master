@@ -8,7 +8,10 @@
     <!-- 设置Spring容器加载所有的配置文件的路径 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/applicationContext.xml</param-value>
+        <param-value>
+            classpath:spring/applicationContext.xml;
+            classpath:mq/activemq.xml
+        </param-value>
     </context-param>
 
     <!-- 加载Spring容器配置 -->
@@ -20,7 +23,10 @@
     <listener>
         <listener-class> org.springframework.web.context.ContextCleanupListener</listener-class>
     </listener>
-
+    <!--WEBSOKET -->
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
     <!-- 字符编码过滤器  -->
     <filter>
         <filter-name>encodingFilter</filter-name>

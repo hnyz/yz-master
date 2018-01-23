@@ -10,10 +10,13 @@ import java.util.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.yzgaming.annotation.Authorization;
+import com.yzgaming.annotation.CurrentUser;
+import com.yzgaming.model.user.UserInfo;
+import com.yzgaming.service.RecordInfoService;
+import com.yzgaming.vo.ResponseVO;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -25,6 +28,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Controller
 @RequestMapping("/user/ruleInfo")
 public class RuleInfoController {
-    
+    @Autowired
+    private RecordInfoService recordInfoService;
+
+    @PostMapping("/upload-record")
+    @Authorization
+    public ResponseVO uploadRecord(@CurrentUser UserInfo userInfo,@RequestParam String recordString){
+        //战绩解密
+        recordInfoService.uploadRecord(userInfo,recordString);
+        return null;
+    }
 
 }

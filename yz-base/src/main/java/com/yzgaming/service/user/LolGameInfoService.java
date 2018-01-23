@@ -6,6 +6,8 @@
 package com.yzgaming.service.user;
 
 import com.yzgaming.model.user.LolGameInfo;
+import com.yzgaming.model.user.UserInfo;
+import com.yzgaming.util.common.YZException;
 
 import java.util.List;
 import java.util.Map;
@@ -28,5 +30,7 @@ public interface LolGameInfoService {
 	public Integer countBy(Map<String, Object> params);
 
 	public List<LolGameInfo> listPage(Map<String, Object> params);
+
+	public LolGameInfo bindingLolGame(UserInfo userInfo, LolGameInfo gameInfo) throws YZException;
 
 }

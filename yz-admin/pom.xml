@@ -11,4 +11,29 @@
 	<artifactId>yz-admin</artifactId>
 	<name>yz-admin</name>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.yzgaming</groupId>
+			<artifactId>yz-base</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+		<!--swagger-->
+		<dependency>
+			<groupId>com.mangofactory</groupId>
+			<artifactId>swagger-springmvc</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+		</dependency>
+
+
+	</dependencies>
 </project>

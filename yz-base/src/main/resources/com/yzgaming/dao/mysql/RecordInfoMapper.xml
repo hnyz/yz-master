@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yzgaming.dao.mysql.RecordInfoMapper">
+
+	<resultMap id="BaseResultMap" type="com.yzgaming.model.RecordInfo">
+			<id property="id" column="id" jdbcType="INTEGER"/>
+			<result property="matchId" column="match_id" jdbcType="INTEGER"/>
+			<result property="userId" column="user_id" jdbcType="INTEGER"/>
+			<result property="deathNum" column="death_num" jdbcType="INTEGER"/>
+			<result property="assistsNum" column="assists_num" jdbcType="INTEGER"/>
+			<result property="killNum" column="kill_num" jdbcType="INTEGER"/>
+			<result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+			<result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+			<result property="recordJson" column="record_json" jdbcType="VARCHAR"/>
+			<result property="gameMode" column="game_mode" jdbcType="VARCHAR"/>
+			<result property="queueType" column="queue_type" jdbcType="VARCHAR"/>
+			<result property="gameType" column="game_type" jdbcType="VARCHAR"/>
+			<result property="reportGameId" column="report_game_id" jdbcType="VARCHAR"/>
+			<result property="playersJson" column="players_json" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		id,match_id,user_id,death_num,assists_num,kill_num,end_time,start_time,record_json,game_mode,queue_type,game_type,report_game_id,players_json
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			yz_record_info
+		where
+			id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from yz_record_info
+		where 1=1
+		  <if test="_bean != null and _bean.id != null">
+			and id = #{ _bean.id, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.matchId != null">
+			and match_id = #{ _bean.matchId, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.userId != null">
+			and user_id = #{ _bean.userId, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.deathNum != null">
+			and death_num = #{ _bean.deathNum, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.assistsNum != null">
+			and assists_num = #{ _bean.assistsNum, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.killNum != null">
+			and kill_num = #{ _bean.killNum, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.endTime != null">
+			and end_time = #{ _bean.endTime, jdbcType=TIMESTAMP }
+		  </if>
+		  <if test="_bean != null and _bean.startTime != null">
+			and start_time = #{ _bean.startTime, jdbcType=TIMESTAMP }
+		  </if>
+		  <if test="_bean != null and _bean.recordJson != null">
+			and record_json = #{ _bean.recordJson, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.gameMode != null">
+			and game_mode = #{ _bean.gameMode, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.queueType != null">
+			and queue_type = #{ _bean.queueType, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.gameType != null">
+			and game_type = #{ _bean.gameType, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.reportGameId != null">
+			and report_game_id = #{ _bean.reportGameId, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.playersJson != null">
+			and players_json = #{ _bean.playersJson, jdbcType=VARCHAR }
+		  </if>
+	</select>
+	
+	<select id="listPage" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from yz_record_info
+		where 1=1
+			<if test="_bean != null and _bean.id != null">
+			  and id = #{ _bean.id, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.matchId != null">
+			  and match_id = #{ _bean.matchId, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.userId != null">
+			  and user_id = #{ _bean.userId, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.deathNum != null">
+			  and death_num = #{ _bean.deathNum, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.assistsNum != null">
+			  and assists_num = #{ _bean.assistsNum, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.killNum != null">
+			  and kill_num = #{ _bean.killNum, jdbcType=INTEGER }
+			</if>
+			<if test="_bean != null and _bean.endTime != null">
+			  and end_time = #{ _bean.endTime, jdbcType=TIMESTAMP }
+			</if>
+			<if test="_bean != null and _bean.startTime != null">
+			  and start_time = #{ _bean.startTime, jdbcType=TIMESTAMP }
+			</if>
+			<if test="_bean != null and _bean.recordJson != null">
+			  and record_json = #{ _bean.recordJson, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.gameMode != null">
+			  and game_mode = #{ _bean.gameMode, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.queueType != null">
+			  and queue_type = #{ _bean.queueType, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.gameType != null">
+			  and game_type = #{ _bean.gameType, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.reportGameId != null">
+			  and report_game_id = #{ _bean.reportGameId, jdbcType=VARCHAR }
+			</if>
+			<if test="_bean != null and _bean.playersJson != null">
+			  and players_json = #{ _bean.playersJson, jdbcType=VARCHAR }
+			</if>
+		<if test="_orderby != null">
+			order by ${_orderby} ${_orderdir}
+		</if>
+		<if test="_start != null and _pageSize != null">
+			limit ${_start}, ${_pageSize}
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.yzgaming.model.RecordInfo">
+		update yz_record_info
+		<set>
+			<if test="matchId != null">
+			  match_id = #{matchId, jdbcType=INTEGER },
+			</if>
+			<if test="userId != null">
+			  user_id = #{userId, jdbcType=INTEGER },
+			</if>
+			<if test="deathNum != null">
+			  death_num = #{deathNum, jdbcType=INTEGER },
+			</if>
+			<if test="assistsNum != null">
+			  assists_num = #{assistsNum, jdbcType=INTEGER },
+			</if>
+			<if test="killNum != null">
+			  kill_num = #{killNum, jdbcType=INTEGER },
+			</if>
+			<if test="endTime != null">
+			  end_time = #{endTime, jdbcType=TIMESTAMP },
+			</if>
+			<if test="startTime != null">
+			  start_time = #{startTime, jdbcType=TIMESTAMP },
+			</if>
+			<if test="recordJson != null">
+			  record_json = #{recordJson, jdbcType=VARCHAR },
+			</if>
+			<if test="gameMode != null">
+			  game_mode = #{gameMode, jdbcType=VARCHAR },
+			</if>
+			<if test="queueType != null">
+			  queue_type = #{queueType, jdbcType=VARCHAR },
+			</if>
+			<if test="gameType != null">
+			  game_type = #{gameType, jdbcType=VARCHAR },
+			</if>
+			<if test="reportGameId != null">
+			  report_game_id = #{reportGameId, jdbcType=VARCHAR },
+			</if>
+			<if test="playersJson != null">
+			  players_json = #{playersJson, jdbcType=VARCHAR },
+			</if>
+		</set>
+		where
+			id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from yz_record_info 
+		where
+			id = #{id}
+	</delete>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.yzgaming.model.RecordInfo">
+		insert into yz_record_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="matchId != null">
+				match_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="deathNum != null">
+				death_num,
+			</if>
+			<if test="assistsNum != null">
+				assists_num,
+			</if>
+			<if test="killNum != null">
+				kill_num,
+			</if>
+			<if test="endTime != null">
+				end_time,
+			</if>
+			<if test="startTime != null">
+				start_time,
+			</if>
+			<if test="recordJson != null">
+				record_json,
+			</if>
+			<if test="gameMode != null">
+				game_mode,
+			</if>
+			<if test="queueType != null">
+				queue_type,
+			</if>
+			<if test="gameType != null">
+				game_type,
+			</if>
+			<if test="reportGameId != null">
+				report_game_id,
+			</if>
+			<if test="playersJson != null">
+				players_json,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id, jdbcType=INTEGER},
+			</if>
+			<if test="matchId != null">
+				#{matchId, jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId, jdbcType=INTEGER},
+			</if>
+			<if test="deathNum != null">
+				#{deathNum, jdbcType=INTEGER},
+			</if>
+			<if test="assistsNum != null">
+				#{assistsNum, jdbcType=INTEGER},
+			</if>
+			<if test="killNum != null">
+				#{killNum, jdbcType=INTEGER},
+			</if>
+			<if test="endTime != null">
+				#{endTime, jdbcType=TIMESTAMP},
+			</if>
+			<if test="startTime != null">
+				#{startTime, jdbcType=TIMESTAMP},
+			</if>
+			<if test="recordJson != null">
+				#{recordJson, jdbcType=VARCHAR},
+			</if>
+			<if test="gameMode != null">
+				#{gameMode, jdbcType=VARCHAR},
+			</if>
+			<if test="queueType != null">
+				#{queueType, jdbcType=VARCHAR},
+			</if>
+			<if test="gameType != null">
+				#{gameType, jdbcType=VARCHAR},
+			</if>
+			<if test="reportGameId != null">
+				#{reportGameId, jdbcType=VARCHAR},
+			</if>
+			<if test="playersJson != null">
+				#{playersJson, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

@@ -12,10 +12,14 @@ import javax.annotation.Resource;
 
 import com.yzgaming.dao.mysql.user.LolGameInfoMapper;
 import com.yzgaming.model.user.LolGameInfo;
+import com.yzgaming.model.user.UserInfo;
 import com.yzgaming.service.user.LolGameInfoService;
+import com.yzgaming.util.common.ClientExceptionEnum;
+import com.yzgaming.util.common.YZException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 /**
@@ -76,4 +80,19 @@ public class LolGameInfoServiceImpl implements LolGameInfoService {
 		
 		return lists;
 	}
+
+	@Override
+	@Transactional
+	public LolGameInfo bindingLolGame(UserInfo userInfo, LolGameInfo gameInfo) throws YZException {
+		//检查是否绑定过
+		gameInfo=lolGameInfoMapper.getByUserId(Integer.parseInt(userInfo.getId().toString()));
+		if(gameInfo!=null){
+			throw new YZException(ClientExceptionEnum.REPEAT_BINDING.getCode(),ClientExceptionEnum.REPEAT_BINDING.getMessage());
+		}
+		gameInfo.setUserId(Integer.parseInt(userInfo.getId().toString()));
+		lolGameInfoMapper.insert(gameInfo);
+		return gameInfo;
+	}
+
+
 }

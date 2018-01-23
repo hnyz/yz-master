@@ -1,5 +1,7 @@
 package com.yzgaming.controller.match;
 
+import com.yzgaming.annotation.CurrentUser;
+import com.yzgaming.model.user.UserInfo;
 import com.yzgaming.service.MatchInfoService;
 import com.yzgaming.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +36,12 @@ public class MatchController {
     public ResponseVO macthDetails(Integer matchId){
         System.out.println(matchId);
         return ResponseVO.getSuccess(matchInfoService.getById(matchId));
+    }
+
+    @GetMapping("/match-sign")
+    public ResponseVO macthSign(@CurrentUser UserInfo userInfo,Integer macthId){
+       // matchInfoService.signMatch(userInfo,macthId);
+
+        return null;
     }
 }

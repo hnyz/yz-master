@@ -8,6 +8,7 @@ package com.yzgaming.dao.mysql;
 import java.util.List;
 import java.util.Map;
 
+import com.yzgaming.vo.match.SignMatchVO;
 import org.springframework.stereotype.Repository;
 
 import com.yzgaming.model.MatchInfo;
@@ -26,4 +27,8 @@ public interface MatchInfoMapper {
     int update(MatchInfo matchInfo);
     
     int deleteById(Integer id);
+
+    List<MatchInfo> getBySingUser(Integer  userId);
+
+    List<SignMatchVO> getByEndState(Integer  userId, Integer endState);
 }

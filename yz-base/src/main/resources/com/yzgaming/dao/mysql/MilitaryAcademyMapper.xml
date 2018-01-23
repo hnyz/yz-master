@@ -10,11 +10,23 @@
 			<result property="academyJoinCost" column="academy_join_cost" jdbcType="DECIMAL"/>
 			<result property="academyRewardCost" column="academy_reward_cost" jdbcType="DECIMAL"/>
 			<result property="academyOutCost" column="academy_out_cost" jdbcType="DECIMAL"/>
+		    <result property="state" column="state" jdbcType="INTEGER"/>
+	</resultMap>
+	<resultMap id="JoinAcade" type="com.yzgaming.vo.acade.AcadeJoinVO">
+		<id property="joinId" column="join_id" jdbcType="INTEGER"/>
+		<result property="acadeId" column="aca_id" jdbcType="INTEGER"/>
+		<result property="acadeName" column="academy_name" jdbcType="VARCHAR"/>
+		<result property="userId" column="user_id" jdbcType="INTEGER"/>
+		<result property="joinTime" column="join_time" jdbcType="TIMESTAMP"/>
+		<result property="surplusAmount" column="surplus_amount" jdbcType="DECIMAL"/>
+		<result property="academyJoinCost" column="academy_join_cost" jdbcType="DECIMAL"/>
+		<result property="academyRewardCost" column="academy_reward_cost" jdbcType="DECIMAL"/>
+		<result property="academyOutCost" column="academy_out_cost" jdbcType="DECIMAL"/>
 	</resultMap>
 	
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="Base_Column_List">
-		id,academy_name,academy_title,academy_image,academy_join_cost,academy_reward_cost,academy_out_cost
+		id,academy_name,academy_title,academy_image,academy_join_cost,academy_reward_cost,academy_out_cost,state
 	</sql>
 	
 	<select id="getById" parameterType="int" resultMap="BaseResultMap">
@@ -144,6 +156,9 @@
 			<if test="academyOutCost != null">
 				academy_out_cost,
 			</if>
+			<if test="state != null">
+				academy_out_cost,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -167,7 +182,16 @@
 			<if test="academyOutCost != null">
 				#{academyOutCost, jdbcType=DECIMAL},
 			</if>
+			<if test="state != null">
+				#{state, jdbcType=DECIMAL},
+			</if>
 		</trim>
 	</insert>
-	
+
+	<select id="getByUserJoin" parameterType="int" resultMap="JoinAcade">
+		SELECT a.id AS aca_id,a.academy_name,a.academy_out_cost,a.academy_reward_cost,a.academy_join_cost,j.user_id,j.id as join_id,j.join_time,j.surplus_amount
+		FROM yz_military_academy a JOIN yz_acade_join  j ON a.id=j.acade_id
+		WHERE j.user_id=#{userId}
+		and a.state=1
+	</select>
 </mapper>

@@ -35,6 +35,8 @@ public class MatchInfo implements Serializable {
 	private String matchRuleText;
 	// 奖励规则说明
 	private String matchRewardText;
+	//比赛场次
+	private Integer playNum;
 		
 	public void setId(Integer value) {
 		this.id = value;
@@ -115,5 +117,12 @@ public class MatchInfo implements Serializable {
 	public String getMatchRewardText() {
 		return this.matchRewardText;
 	}
-	
+
+	public Integer getPlayNum() {
+		return playNum;
+	}
+
+	public void setPlayNum(Integer playNum) {
+		this.playNum = playNum;
+	}
 }

@@ -8,6 +8,7 @@ package com.yzgaming.dao.mysql;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.yzgaming.model.SignMatch;
@@ -26,4 +27,8 @@ public interface SignMatchMapper {
     int update(SignMatch signMatch);
     
     int deleteById(Integer id);
+
+    SignMatch getByMatchAndUser(Integer userId,Integer matchId);
+
+    List<SignMatch> getByUser(@Param("userId") Long userId);
 }

@@ -1,29 +1,38 @@
 package com.yzgaming.controller.user;
 
+import com.yzgaming.activemq.ProducerService;
 import com.yzgaming.annotation.Authorization;
 import com.yzgaming.annotation.CurrentUser;
 import com.yzgaming.dao.mysql.user.LolGameInfoMapper;
 import com.yzgaming.dao.mysql.user.UserInfoMapper;
+import com.yzgaming.model.RecordInfo;
 import com.yzgaming.model.user.LolGameInfo;
 import com.yzgaming.model.user.UserInfo;
 import com.yzgaming.mvc.result.JSONMessage;
 import com.yzgaming.dao.redis.api.RedisBaseDAO;
 import com.yzgaming.service.user.LolGameInfoService;
 import com.yzgaming.service.user.UserInfoService;
+import com.yzgaming.util.common.ClientExceptionEnum;
 import com.yzgaming.util.common.MD5Util;
 import com.yzgaming.util.common.RandomUtil;
 import com.yzgaming.util.common.YZException;
 import com.yzgaming.util.manager.TokenManager;
+import com.yzgaming.util.websocket.WebSocketUtil;
 import com.yzgaming.vo.ResponseVO;
 import com.yzgaming.vo.TokenModel;
+import com.yzgaming.vo.VerificationRecordVO;
+import com.yzgaming.vo.record.RecordVO;
 import com.yzgaming.vo.user.UserLoginVO;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -32,20 +41,22 @@ public class UserController{
     @Autowired
     private UserInfoService userInfoService;
     @Autowired
-    private LolGameInfoMapper lolGameInfoMapper;
-
-    @Autowired
     private UserInfoMapper userInfoMapper;
     @Autowired
     private RedisBaseDAO redisBaseDAO;
     @Autowired
     private TokenManager tokenManager;
+    @Autowired
+    private  LolGameInfoService lolGameInfoService;
+    @Autowired
+    ProducerService producerService;
 
     /**
      * 账号密码登陆
      * @param userLoginVO
      * @return
      */
+    @ApiOperation(value = "账号密码登陆",notes = "账号密码登陆",httpMethod = "POST" ,produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResponseVO login(@RequestBody UserLoginVO userLoginVO) {
         //密码MD5
@@ -68,6 +79,7 @@ public class UserController{
      * @param mobile
      * @return
      */
+    @ApiOperation(value = "获取短信验证码",notes = "获取短信验证码",httpMethod = "GET")
     @GetMapping("/sendSms")
     public ResponseVO getSmsCode(String mobile){
             //随机生成验证码
@@ -85,6 +97,7 @@ public class UserController{
      * 用户手机号注册
      * @return
      */
+    @ApiOperation(value = "手机号快速登录",notes = "手机号快速登录",httpMethod = "POST" ,produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("/register")
     public ResponseVO register(@RequestBody UserLoginVO userLoginVO){
         //手机验证码是否正确
@@ -119,16 +132,14 @@ public class UserController{
      * @param userLoginVO
      * @return
      */
+    @ApiOperation(value = "设置用户昵称和密码",notes = "设置用户昵称和密码",httpMethod = "POST" ,produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("/setUserName")
     @Authorization
     public ResponseVO setPassWordAndName(@CurrentUser UserInfo userInfo,@RequestBody UserLoginVO userLoginVO){
         String passWord=userLoginVO.getPassword();
-        String passWordAgain = userLoginVO.getPassWordAgain();
-        if (passWord.equals(passWordAgain)){
-            userInfo.setUserPassword(passWord);
-            userInfo.setUserName(userLoginVO.getUserName());
-            userInfoMapper.update(userInfo);
-        }
+        userInfo.setUserPassword(passWord);
+        userInfo.setUserName(userLoginVO.getUserName());
+        userInfoMapper.update(userInfo);
         return new ResponseVO(200,"设置成功","");
     }
 
@@ -146,11 +157,19 @@ public class UserController{
      *开始绑定游戏账户
      * @return
      */
+    @ApiOperation(value = "开始绑定游戏账户",notes = "开始绑定游戏账户",httpMethod = "POST" ,produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("bund-loler")
     @Authorization
     public ResponseVO bundlingLolgame(@CurrentUser UserInfo userInfo, @RequestBody LolGameInfo gameInfo){
-        gameInfo.setUserId(Integer.parseInt(userInfo.getId().toString()));
-        lolGameInfoMapper.insert(gameInfo);
+        WebSocketUtil  webSocketUtil=new WebSocketUtil();
+
+        try {
+            webSocketUtil.sendMsg("????");
+            lolGameInfoService.bindingLolGame(userInfo,gameInfo);
+        }catch (YZException e){
+            return new ResponseVO(e.getErrorCode(),e.getErrorMsg(),"");
+        }
+
         return new ResponseVO(200,"绑定成功",gameInfo);
     }
 
@@ -159,15 +178,16 @@ public class UserController{
      * @param userInfo
      * @return
      */
+    @ApiOperation(value = "是否绑定了Lol游戏账户",notes = "是否绑定了Lol游戏账户",httpMethod = "POST" ,produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("/exist-loler")
     @Authorization
     public  ResponseVO existenceLolgameInfo(@CurrentUser UserInfo  userInfo){
         //根据用户ID获取gameInfo
-        LolGameInfo gameInfo=lolGameInfoMapper.getByUserId(Integer.parseInt(userInfo.getId().toString()));
-        if(gameInfo==null){
-            return new ResponseVO(6001,"该用户未绑定LOL账户","");
-        }else{
-            return new ResponseVO(200,"该用户已绑定LOL账户",gameInfo);
+        try{
+            LolGameInfo gameInfo = userInfoService.existenceLolgameInfo(userInfo);
+            return ResponseVO.getSuccess(gameInfo);
+        }catch (YZException e){
+            return  ResponseVO.getFail(e.getErrorCode(),e.getErrorMsg(),"");
         }
     }
 
@@ -186,7 +206,51 @@ public class UserController{
      */
     @GetMapping("/bund-chicken")
     public ResponseVO bundlingChickenGame(){
+
         return null;
+    }
+
+    @GetMapping("/verification-loler")
+    @Authorization
+    public  ResponseVO verificationLolgameInfo(@CurrentUser UserInfo  userInfo,String gameUin){
+      try{
+          VerificationRecordVO verificationRecordVO = userInfoService.verificationLolgameInfo(userInfo, gameUin);
+
+          return  ResponseVO.getSuccess(verificationRecordVO);
+      }catch (YZException e){
+          return ResponseVO.getFail(e.getErrorCode(),e.getErrorMsg(),"");
+      }
+
+    }
+
+    @GetMapping("/UUU")
+    public  ResponseVO hhh(){
+       // producerService.sendMessage("模拟小雨的MQ消息 ");
+        for (int i=1;i<15;i++) {
+            TestUser a = new TestUser(i, 50+i, 70+i);
+            redisBaseDAO.setZSet("match",a,1000+i);
+        }
+
+        return null;
+    }
+
+    @GetMapping("/GGG")
+    public  ResponseVO hhhggg(){
+
+
+        return ResponseVO.getSuccess(
+                redisBaseDAO.getZSet("match")
+        );
+    }
+
+    @PostMapping("/recordTest")
+    @ApiOperation(value = "上传战绩参数说明",notes = "上传战绩参数说明",httpMethod = "POST" )
+    public  ResponseVO hhhggfffg(@RequestBody RecordVO  recordVO){
+
+
+        return ResponseVO.getSuccess(
+                ""
+        );
     }
 }
 

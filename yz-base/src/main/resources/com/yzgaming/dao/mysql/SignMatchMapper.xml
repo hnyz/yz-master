@@ -249,5 +249,11 @@
 			</if>
 		</trim>
 	</insert>
-	
+
+	<select id="getByUser" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from yz_sign_match
+		WHERE user_id=#{userId}
+	</select>
 </mapper>

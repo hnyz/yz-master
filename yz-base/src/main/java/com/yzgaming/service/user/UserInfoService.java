@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 
+import com.yzgaming.model.user.LolGameInfo;
 import com.yzgaming.model.user.UserInfo;
 import com.yzgaming.util.common.YZException;
+import com.yzgaming.vo.VerificationRecordVO;
 
 /**
  * @version 1.0
@@ -33,5 +35,11 @@ public interface UserInfoService {
 	public UserInfo loginBymobile(String mobile,String passWord) throws YZException;
 
 	public UserInfo register(String mobile);
+
+	public LolGameInfo existenceLolgameInfo(UserInfo  userInfo) throws YZException;
+
+	public VerificationRecordVO verificationLolgameInfo(UserInfo  userInfo, String gameUin) throws YZException;
+
+
 
 }

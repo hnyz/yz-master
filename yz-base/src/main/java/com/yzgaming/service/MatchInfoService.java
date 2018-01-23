@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 import com.yzgaming.model.MatchInfo;
+import com.yzgaming.model.user.UserInfo;
 
 /**
  * @version 1.0
@@ -29,4 +30,5 @@ public interface MatchInfoService {
 
 	public List<MatchInfo> listPage(Map<String, Object> params);
 
+    public void signMatch(UserInfo userInfo,Integer matchId);
 }

@@ -8,6 +8,7 @@ package com.yzgaming.dao.mysql;
 import java.util.List;
 import java.util.Map;
 
+import com.yzgaming.vo.acade.AcadeJoinVO;
 import org.springframework.stereotype.Repository;
 
 import com.yzgaming.model.MilitaryAcademy;
@@ -26,4 +27,6 @@ public interface MilitaryAcademyMapper {
     int update(MilitaryAcademy militaryAcademy);
     
     int deleteById(Integer id);
+
+    List<AcadeJoinVO> getByUserJoin(Integer userId);
 }

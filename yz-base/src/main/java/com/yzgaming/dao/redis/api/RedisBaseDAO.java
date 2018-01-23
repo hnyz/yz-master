@@ -1,6 +1,7 @@
 package com.yzgaming.dao.redis.api;
 
 import com.yzgaming.vo.TokenModel;
+import org.springframework.data.redis.core.ZSetOperations;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -120,5 +121,14 @@ public interface RedisBaseDAO {
 	 */
 	public int getExpireSeconds(String key);
 
+	/**
+	 * ZSet保存实现了序列化的实体
+	 * @param key
+	 * @param value
+	 * @param seconds
+	 * @return
+	 */
+	public  Boolean setZSet(String key, Serializable value, Double seconds);
 
+	public  Set<ZSetOperations.TypedTuple<Serializable>> getZSet(String key);
 }

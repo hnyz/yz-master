@@ -13,11 +13,24 @@
 			<result property="endState" column="end_state" jdbcType="TINYINT"/>
 			<result property="matchRuleText" column="match_rule_text" jdbcType="VARCHAR"/>
 			<result property="matchRewardText" column="match_reward_text" jdbcType="VARCHAR"/>
+		    <result property="playNum" column="paly_num" jdbcType="VARCHAR"/>
+
+	</resultMap>
+
+	<resultMap id="SignMacth" type="com.yzgaming.vo.match.SignMatchVO">
+		<id property="matchId" column="match_id" jdbcType="INTEGER"/>
+		<result property="matchName" column="match_name" jdbcType="VARCHAR"/>
+		<result property="matchStartTime" column="match_start_time" jdbcType="TIMESTAMP"/>
+		<result property="matchEndTime" column="match_end_time" jdbcType="TIMESTAMP"/>
+		<result property="playNum" column="paly_num" jdbcType="INTEGER"/>
+		<result property="signId" column="sign_id" jdbcType="INTEGER"/>
+		<result property="countSign" column="count_sign" jdbcType="INTEGER"/>
+
 	</resultMap>
 	
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="Base_Column_List">
-		id,match_name,match_title,sign_fee,bonus_amount,match_start_time,match_end_time,end_state,match_rule_text,match_reward_text
+		id,match_name,match_title,sign_fee,bonus_amount,match_start_time,match_end_time,end_state,match_rule_text,match_reward_text,paly_num
 	</sql>
 	
 	<select id="getById" parameterType="int" resultMap="BaseResultMap">
@@ -138,6 +151,10 @@
 			<if test="matchRewardText != null">
 			  match_reward_text = #{matchRewardText, jdbcType=VARCHAR },
 			</if>
+			<if test="playNum != null">
+				play_num = #{playNum, jdbcType=VARCHAR },
+			</if>
+
 		</set>
 		where
 			id = #{id}
@@ -218,7 +235,15 @@
 		</trim>
 	</insert>
 
-	<select id="findAll">
+	<select id="getBySingUser" parameterType="int" resultMap="Sin">
+		SELECT m.* FROM yz_match_info m JOIN yz_sign_match s ON m.id=s.match_id WHERE
+		s.user_id=#{userId}
+	</select>
 
+	<select id="getByEndState" parameterType="int" resultMap="SignMacth">
+         SELECT m.id AS match_id,m.match_name,m.match_start_time,m.match_end_time,m.paly_num ,s.id AS sign_id ,COUNT(r.sign_id) AS count_sign
+         FROM yz_match_info m JOIN yz_sign_match s ON m.id=s.match_id JOIN yz_sign_record r  ON r.sign_id=s.id
+         WHERE  s.user_id=#{userId} and m.end_state=#{endState}
+         GROUP BY m.id
 	</select>
 </mapper>

@@ -69,5 +69,6 @@
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-     <import resource="spring-redis.xml"/>
+	<import resource="spring-redis.xml"/>
+
 </beans>

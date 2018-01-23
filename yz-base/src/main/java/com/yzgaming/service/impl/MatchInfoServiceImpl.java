@@ -8,6 +8,9 @@ package com.yzgaming.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import com.yzgaming.model.user.UserInfo;
+import com.yzgaming.util.common.YZException;
+import com.yzgaming.util.enmu.GameInfoCode;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,5 +77,18 @@ public class MatchInfoServiceImpl implements MatchInfoService {
 		List<MatchInfo> lists = matchInfoMapper.listPage(params);
 		
 		return lists;
+	}
+
+	@Override
+	@Transactional
+	public void signMatch(UserInfo userInfo, Integer matchId) throws YZException {
+		//获取赛事信息
+		MatchInfo match = matchInfoMapper.getById(matchId);
+		Integer userVolume = userInfo.getUserVolume();
+		if(match.getBonusAmount()>userVolume){
+			//点卷不足
+			throw new YZException(GameInfoCode.INSUFFICIENT_VOLUME.getCode(),GameInfoCode.INSUFFICIENT_VOLUME.getMessage());
+		}
+
 	}
 }

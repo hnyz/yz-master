@@ -29,6 +29,8 @@ public class MilitaryAcademy implements Serializable {
 	private Long academyRewardCost;
 	// 自动退出下限
 	private Long academyOutCost;
+	//状态(0失效，1有效 )
+	private Integer state;
 		
 	public void setId(Integer value) {
 		this.id = value;
@@ -85,5 +87,12 @@ public class MilitaryAcademy implements Serializable {
 	public Long getAcademyOutCost() {
 		return this.academyOutCost;
 	}
-	
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
 }

@@ -7,6 +7,7 @@ import com.yzgaming.util.string.StringNumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Repository;
 
@@ -43,6 +44,7 @@ public class RedisBaseImpl implements RedisBaseDAO {
 		//
 		String _key = prefixKey(key);
 		//
+
 		try{
 			redisTemplate.delete(_key);
 		} catch (Exception e){
@@ -246,9 +248,27 @@ public class RedisBaseImpl implements RedisBaseDAO {
 			result = -1L;
 		}
 		//
+
 		return result.intValue();
 	}
 
 
+	/**
+	 * ZSet保存实现了序列化的实体
+	 * @param key
+	 * @param value
+	 * @param score
+	 * @return
+	 */
+	public  Boolean setZSet(String key, Serializable value, Double score){
+
+	return redisTemplate.opsForZSet().add(key, value, score);
+	}
+
+	public  Set<ZSetOperations.TypedTuple<Serializable>> getZSet(String key){
+		Set<ZSetOperations.TypedTuple<Serializable>> typedTuples = redisTemplate.opsForZSet().reverseRangeWithScores(key, 1, 15);
+		return  typedTuples;
+
+	}
 }
 

@@ -121,7 +121,7 @@ public class SignMatchServiceImpl implements SignMatchService {
 		sign.setSignState(NumberConstant.ONE);
 		signMatchMapper.insert(sign);
 		//扣除用户点卷
-		userInfoMapper.updateVolume(Integer.parseInt(userInfo.getId().toString()),-(matchInfo.getSignFee()));
+		userInfoMapper.updateVolume(userInfo.getId().intValue(),-(matchInfo.getSignFee()));
 		//记录点卷日志
 
 		//赠送积分
